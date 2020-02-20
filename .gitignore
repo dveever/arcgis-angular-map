@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# idea project file
+.idea/
+
+# exclude package-lock.json
+package-lock.json

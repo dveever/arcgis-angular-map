@@ -6,7 +6,7 @@ npm install --save
 ng build
 ```
 
-For resutl run
+For result run
 ```
 ng serve
 ```

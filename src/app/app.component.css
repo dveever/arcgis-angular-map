@@ -41,6 +41,7 @@ footer a {
   flex-direction: column;
   align-items: center;
   height: 640px;
+  background-color: #f0f0f0;
 }
 .github-star-badge {
   color: #24292e;
@@ -87,4 +88,8 @@ svg.material-icons:not(:last-child) {
   height: 100%;
   width: 100%;
   outline: none;
+}
+.header-title {
+  color: #24292e;
+  font-size: 16pt;
 }

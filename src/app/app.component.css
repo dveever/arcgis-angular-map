@@ -13,13 +13,12 @@ footer a {
 }
 
 .toolbar {
-  height: 60px;
+  height: 68px;
   margin: -8px;
   display: flex;
   align-items: center;
-  background-color: #1976d2;
   color: white;
-  font-weight: 600;
+  border-bottom: solid lightgray 1px;
 }
 
 .toolbar img {
@@ -40,7 +39,7 @@ footer a {
   margin: 32px auto;
   flex-direction: column;
   align-items: center;
-  height: 640px;
+  height: 590px;
   background-color: #f0f0f0;
 }
 .github-star-badge {

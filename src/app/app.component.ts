@@ -4,7 +4,7 @@ import {loadModules} from 'esri-loader';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   // Get a container link for map place

@@ -1,0 +1,8 @@
+<section *ngFor="let layer of layers" class="layer">
+  <span>
+    <mat-checkbox [checked]="layer.visible"
+                  (change)="changeVisible()">
+      {{layer.name}}
+    </mat-checkbox>
+  </span>
+</section>

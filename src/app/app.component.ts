@@ -8,10 +8,11 @@ import {loadModules} from 'esri-loader';
 })
 export class AppComponent {
   // Get a container link for map place
-  @ViewChild('mapView', {static: true}) private readonly mapViewElement: ElementRef;
+  @ViewChild('mapView', {static: true}) private readonly mapViewElement!: ElementRef;
   // main map view
   private mapView;
   title = 'ArcGIS angular map';
+  map!: any;
 
   constructor() {
     // This function to load Dojo's require the classes listed in the array modules
@@ -24,14 +25,14 @@ export class AppComponent {
           basemap: 'gray'
         };
         // create map by default properties
-        const map = new Map(mapProperties);
+        this.map = new Map(mapProperties);
         // set default map view properties
         // container - element in html-template for locate map
         // zoom - default zoom parameter, value from 1 to 18
         const mapViewProperties = {
           container: this.mapViewElement.nativeElement,
           zoom: 3,
-          map
+          map: this.map
         };
         // create map view by default properties
         this.mapView = new MapView(mapViewProperties);
@@ -47,7 +48,7 @@ export class AppComponent {
         // Create map image layer by properties
         const oilSandsLayer = new MapImageLayer(oilSandLayerProperties);
         // Adding a layer into map
-        map.add(oilSandsLayer);
+        this.map.add(oilSandsLayer);
       });
   }
 }

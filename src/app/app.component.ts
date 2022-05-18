@@ -12,7 +12,7 @@ export class AppComponent {
   // main map view
   private mapView;
   title = 'ArcGIS angular map';
-  map!: any;
+  map;
 
   constructor() {
     // This function to load Dojo's require the classes listed in the array modules
@@ -45,10 +45,15 @@ export class AppComponent {
           url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/OilSandsProjectBoundaries/MapServer',
           sublayers: [{id: 1}]
         };
+        const usaProperties = {
+          url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer'
+        };
         // Create map image layer by properties
-        const oilSandsLayer = new MapImageLayer(oilSandLayerProperties);
+        // const oilSandsLayer = new MapImageLayer(oilSandLayerProperties);
+        const usaLayer = new MapImageLayer(usaProperties);
         // Adding a layer into map
-        this.map.add(oilSandsLayer);
+        // this.map.add(oilSandsLayer);
+        this.map.add(usaLayer);
       });
   }
 }

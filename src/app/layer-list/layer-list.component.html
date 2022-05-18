@@ -1,8 +1,8 @@
 <section *ngFor="let layer of layers" class="layer">
   <span>
     <mat-checkbox [checked]="layer.visible"
-                  (change)="changeVisible()">
-      {{layer.name}}
+                  (change)="changeVisible(layer, $event)">
+      {{layer.title || layer.url}}
     </mat-checkbox>
   </span>
 </section>

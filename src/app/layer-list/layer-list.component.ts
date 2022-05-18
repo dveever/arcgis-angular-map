@@ -1,28 +1,54 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Layer }
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {Layer} from '../interface/layer';
 
 @Component({
   selector: 'app-layer-list',
   templateUrl: './layer-list.component.html',
-  styleUrls: ['./layer-list.component.scss']
+  styleUrls: ['./layer-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayerListComponent implements OnInit {
 
-  @Input() layers: any[] = [{visible: true, name: "layer"}];
   @Input() set map(value) {
     this._map = value;
-    this._layers = value.layers.items.reduce((acc, prev) => acc = [], []);
-  };
-  private _layers: Layer;
+    value?.layers.items.forEach(item => {
+      console.log(item.allSublayers.items);
+      console.log(item.allSublayers.items.length);
+      for (const lyr of item.allSublayers.items) {
+        console.log(lyr);
+        this.layers.push(lyr);
+      }
+
+      // this.layers.push(item.allSublayers.items[0]);
+      console.log(this._map);
+      console.log(this.layers);
+      // this.layers.push(item.allSublayers.items);
+    });
+
+    // this.l = value?.layers?.items?.reduce((acc, prev) => {
+    //   if (!Array.isArray(acc)){
+    //     acc = [];
+    //   }
+    //   console.log('sdsd');
+    //   console.log(prev);
+    //   // acc.push(prev.sublayers.items);
+    // }); // this.layers.push(item));
+  }
+
+  layers: Layer[] = [];
+  l = [];
   private _map: Layer;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
-  changeVisible(): void {
+  changeVisible(layer, event): void {
+    layer.visible = event.checked;
     console.log(this._map);
-    console.log(this._layers);
+    console.log(this.layers);
+    console.log(this.l);
   }
 }

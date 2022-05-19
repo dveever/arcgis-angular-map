@@ -18,7 +18,7 @@ export class LayerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // When map view to loaded we're receive map and extract layer from it
+    // When map view well be load we're receive map and extract layer from it
     this.mapManagementService.map
       .pipe(filter(map => !!map), takeUntil(this.onDestroy))
       .subscribe(map => {

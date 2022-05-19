@@ -1,5 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Layer} from '../interface/layer';
+import {MapManagementService} from "../service/map-management.service";
+import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-layer-list',
@@ -7,48 +9,31 @@ import {Layer} from '../interface/layer';
   styleUrls: ['./layer-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayerListComponent implements OnInit {
+export class LayerListComponent implements OnInit, OnDestroy {
 
-  @Input() set map(value) {
-    this._map = value;
-    value?.layers.items.forEach(item => {
-      console.log(item.allSublayers.items);
-      console.log(item.allSublayers.items.length);
-      for (const lyr of item.allSublayers.items) {
-        console.log(lyr);
-        this.layers.push(lyr);
-      }
+  layers = new BehaviorSubject<Layer[]>([]);
+  private onDestroy = new Subject<void>();
 
-      // this.layers.push(item.allSublayers.items[0]);
-      console.log(this._map);
-      console.log(this.layers);
-      // this.layers.push(item.allSublayers.items);
-    });
-
-    // this.l = value?.layers?.items?.reduce((acc, prev) => {
-    //   if (!Array.isArray(acc)){
-    //     acc = [];
-    //   }
-    //   console.log('sdsd');
-    //   console.log(prev);
-    //   // acc.push(prev.sublayers.items);
-    // }); // this.layers.push(item));
-  }
-
-  layers: Layer[] = [];
-  l = [];
-  private _map: Layer;
-
-  constructor() {
+  constructor(private readonly mapManagementService: MapManagementService) {
   }
 
   ngOnInit(): void {
+    // When map view to loaded we're receive map and extract layer from it
+    this.mapManagementService.map
+      .pipe(filter(map => !!map), takeUntil(this.onDestroy))
+      .subscribe(map => {
+        map.layers.forEach(item => {
+          this.layers.next(Array.from(item.get("allSublayers")));
+        });
+      });
   }
 
   changeVisible(layer, event): void {
     layer.visible = event.checked;
-    console.log(this._map);
-    console.log(this.layers);
-    console.log(this.l);
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.complete();
   }
 }

@@ -1,4 +1,4 @@
-<section *ngFor="let layer of layers" class="layer">
+<section *ngFor="let layer of layers | async" class="layer">
   <span>
     <mat-checkbox [checked]="layer.visible"
                   (change)="changeVisible(layer, $event)">

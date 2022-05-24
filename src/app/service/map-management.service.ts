@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {Subject} from "rxjs";
+import ArcGISMap from "@arcgis/core/Map";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapManagementService {
-  map = new BehaviorSubject<__esri.Map>(null);
+  map = new Subject<ArcGISMap>();
 
-  setMap(map: __esri.Map): void {
+  setMap(map: ArcGISMap): void {
     this.map.next(map);
   }
 }

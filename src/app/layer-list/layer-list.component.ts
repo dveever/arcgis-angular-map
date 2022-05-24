@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {Layer} from '../interface/layer';
 import {MapManagementService} from "../service/map-management.service";
 import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import {MatCheckboxChange} from "@angular/material/checkbox";
+import Sublayer from "@arcgis/core/layers/support/Sublayer";
 
 @Component({
   selector: 'app-layer-list',
@@ -11,7 +13,7 @@ import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
 })
 export class LayerListComponent implements OnInit, OnDestroy {
 
-  layers = new BehaviorSubject<Layer[]>([]);
+  layers = new BehaviorSubject<Sublayer[]>([]);
   private onDestroy = new Subject<void>();
 
   constructor(private readonly mapManagementService: MapManagementService) {
@@ -23,12 +25,14 @@ export class LayerListComponent implements OnInit, OnDestroy {
       .pipe(filter(map => !!map), takeUntil(this.onDestroy))
       .subscribe(map => {
         map.layers.forEach(item => {
-          this.layers.next(Array.from(item.get("allSublayers")));
+          if (item instanceof MapImageLayer) {
+            this.layers.next(Array.from(item.allSublayers));
+          }
         });
       });
   }
 
-  changeVisible(layer, event): void {
+  changeVisible(layer: Sublayer, event: MatCheckboxChange): void {
     layer.visible = event.checked;
   }
 

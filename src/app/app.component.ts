@@ -1,7 +1,14 @@
-import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
-import {loadModules} from 'esri-loader';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MapManagementService} from "./service/map-management.service";
 import {environment} from "../environments/environment";
+import ArcGISMap from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import QueryTask from "@arcgis/core/tasks/QueryTask";
+import Query from "@arcgis/core/rest/support/Query";
+import PopupTemplate from "@arcgis/core/PopupTemplate";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import ViewClickEvent = __esri.ViewClickEvent;
 
 @Component({
   selector: 'app-root',
@@ -9,33 +16,36 @@ import {environment} from "../environments/environment";
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   // Get a container link for map place
   @ViewChild('mapView', {static: true}) private readonly mapViewElement!: ElementRef;
   // main map view
-  private mapView: __esri.MapView;
+  private mapView!: MapView;
   title = 'ArcGIS angular map';
-  map: __esri.Map;
+  map!: ArcGISMap;
 
   constructor(private readonly mapManagementService: MapManagementService) {
+  }
+
+  ngOnInit() {
     this.loadMap();
   }
 
-  async loadMap() {
+  loadMap() {
     // Load esri modules
-    const [Map, MapView, MapImageLayer] = await loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/MapImageLayer']);
     const mapProperties = {
-      basemap: 'gray'
+      basemap: 'gray-vector'
     };
     // create map by default properties
-    this.map = new Map(mapProperties);
+    this.map = new ArcGISMap(mapProperties);
     // set default map view properties
     // container - element in html-template for locate map
     // zoom - default zoom parameter, value from 1 to 18
     const mapViewProperties = {
+      map: this.map,
       container: this.mapViewElement.nativeElement,
-      zoom: 3,
-      map: this.map
+      center: [-100.244, 42.052],
+      zoom: 3
     };
     // create map view by default properties
     this.mapView = new MapView(mapViewProperties);
@@ -50,7 +60,33 @@ export class AppComponent {
     const usaLayer = new MapImageLayer(usaProperties);
     // Adding a layer into map
     this.map.add(usaLayer);
-    // Waiting for the map view to be loaded and send map to map management service
-    this.mapView.when(() => this.mapManagementService.setMap(this.map));
+    // Waiting for the layer to be loaded and send map to map management service
+    usaLayer.when(() => this.mapManagementService.setMap(this.map));
+    // Handle map click and invoke identify method
+    this.mapView.on('click', this.identify);
+  }
+
+  identify = (event: ViewClickEvent) => {
+    const queryTask = new QueryTask();
+    queryTask.url = `${environment.arcgisServiceUrl}/2`;
+    const query = new Query();
+    query.returnGeometry = true;
+    query.geometry = event.mapPoint;
+    queryTask.execute(query).then(result => this.showInfo(result));
+    console.log(event);
+  }
+
+  showInfo = (featureSet: FeatureSet) => {
+    const popupTemplate = new PopupTemplate();
+    popupTemplate.title = 'Information';
+    popupTemplate.content = '';
+    this.mapView.graphics.removeAll();
+    featureSet.features.forEach(item => {
+      const graphic = item;
+      Object.keys(graphic.attributes).forEach(key => popupTemplate.content += '<p>' + key + ': ' + graphic.attributes[key] + '</p>')
+      graphic.popupTemplate = popupTemplate;
+      this.mapView.graphics.add(graphic);
+    });
+    console.log(featureSet);
   }
 }

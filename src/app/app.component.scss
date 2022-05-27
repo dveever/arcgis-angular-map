@@ -13,6 +13,7 @@ footer {
   display: flex;
   align-items: center;
   line-height: 20px;
+  justify-content: center;
 }
 
 footer a {
@@ -25,11 +26,12 @@ footer a {
 }
 
 .toolbar {
-  height: 68px;
   display: flex;
   align-items: center;
   color: white;
   border-bottom: solid lightgray 1px;
+  height: 68px;
+  padding: 4px 0;
 }
 
 .toolbar img {
@@ -52,11 +54,6 @@ footer a {
   height: 100%;
   width: 100%;
   background-color: #f0f0f0;
-
-  & > div {
-    width: 100%;
-    height: 100%;
-  }
 }
 .github-star-badge {
   color: #24292e;
@@ -94,16 +91,13 @@ svg.material-icons:not(:last-child) {
 .card-container .card:not(.highlight-card):hover .material-icons path {
   fill: rgb(105, 103, 103);
 }
+
 .github-star-badge .material-icons {
   height: 16px;
   width: 16px;
   margin-right: 4px;
 }
-.esri-view {
-  height: 100%;
-  width: 100%;
-  outline: none;
-}
+
 .header-title {
   color: #24292e;
   font-size: 16pt;

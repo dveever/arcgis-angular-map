@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {MapManagementService} from "../service/map-management.service";
+import {MapManagementService} from "../../services/map-management.service";
 import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import {MatCheckboxChange} from "@angular/material/checkbox";
@@ -21,7 +21,7 @@ export class LayerListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // When map view well be load we're receive map and extract layer from it
-    this.mapManagementService.map
+    this.mapManagementService.mapChange
       .pipe(filter(map => !!map), takeUntil(this.onDestroy))
       .subscribe(map => {
         map.layers.forEach(item => {

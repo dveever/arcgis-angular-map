@@ -1,2 +1,2 @@
-<div #mapView tabindex="-1"></div>
-<app-layer-list></app-layer-list>
+<div #mapView></div>
+<app-layer-list *ngIf="layerListVisible() | async"></app-layer-list>

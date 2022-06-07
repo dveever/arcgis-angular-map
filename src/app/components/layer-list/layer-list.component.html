@@ -1,11 +1,27 @@
 <section *ngFor="let layer of layers | async" class="layer">
   <mat-checkbox [checked]="layer.visible"
                 (change)="changeVisible(layer, $event)">
-  </mat-checkbox>
-  <mat-icon>
-    table_chart
-  </mat-icon>
-  <span>
     {{layer.title || layer.url}}
-  </span>
+  </mat-checkbox>
+  <div class="layer-menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="featureNotImplemented()">
+        <mat-icon>
+          view_list
+        </mat-icon>
+        <span>Attributes</span>
+      </button>
+      <button mat-menu-item (click)="featureNotImplemented()">
+        <mat-icon>flip_to_back</mat-icon>
+        <span>Select</span>
+      </button>
+      <button mat-menu-item (click)="featureNotImplemented()">
+        <mat-icon>format_paint</mat-icon>
+        <span>Change style</span>
+      </button>
+    </mat-menu>
+  </div>
 </section>

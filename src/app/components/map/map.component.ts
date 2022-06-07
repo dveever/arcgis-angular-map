@@ -1,12 +1,13 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subject, takeUntil} from "rxjs";
+import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Observable, Subject, takeUntil} from "rxjs";
 import {MapManagementService} from "../../services/map-management.service";
 import ViewClickEvent = __esri.ViewClickEvent;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements OnInit, OnDestroy {
 
@@ -33,6 +34,10 @@ export class MapComponent implements OnInit, OnDestroy {
           location: event.mapPoint,
         })
       });
+  }
+
+  layerListVisible(): Observable<boolean> {
+    return this.mapManagementService.layerListVisible;
   }
 
   ngOnDestroy(): void {

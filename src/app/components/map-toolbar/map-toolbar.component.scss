@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  gap: 12px;
+}
+
+.button {
+  max-width: 38px;
+  height: 38px;
+
+  &-active {
+    background-color: #dfdfdf;
+  }
+}
+
+.mat-stroked-button {
+  min-width: 36px;
+  padding: unset;
+}

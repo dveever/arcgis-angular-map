@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable, of, Subject, switchMap} from "rxjs";
+import {BehaviorSubject, from, Observable, of, Subject, switchMap} from "rxjs";
 import ArcGISMap from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import {environment} from "../../environments/environment";
@@ -10,6 +10,8 @@ import IdentifyParameters from "@arcgis/core/rest/support/IdentifyParameters";
 import IdentifyTask from "@arcgis/core/tasks/IdentifyTask";
 import Graphic from "@arcgis/core/Graphic";
 import {IdentifyExecuteResult} from "../interfaces/identify-execute-result";
+import {MatDialog} from "@angular/material/dialog";
+import {FeatureNotImplementedComponent} from "../components/feature-not-implemented/feature-not-implemented.component";
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +20,11 @@ export class MapManagementService {
   map!: ArcGISMap;
   mapChange = new Subject<ArcGISMap>();
   mapView!: MapView;
+  layerListVisible = new BehaviorSubject<boolean>(true);
   private usaLayer!: MapImageLayer;
   private identify: IdentifyTask;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.identify = new IdentifyTask();
   }
 
@@ -73,6 +76,10 @@ export class MapManagementService {
       .pipe(
         switchMap((identifyExecuteResult: IdentifyExecuteResult) => this.getTemplates(identifyExecuteResult))
       );
+  }
+
+  notImplementedClick(): void {
+    this.dialog.open(FeatureNotImplementedComponent);
   }
 
   private getTemplates = (identifyResult: IdentifyExecuteResult): Observable<Graphic[]> => {

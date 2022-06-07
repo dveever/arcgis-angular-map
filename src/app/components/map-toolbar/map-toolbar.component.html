@@ -1,1 +1,6 @@
-<p>map-toolbar works!</p>
+<button mat-stroked-button class="button" [class.button-active]="layerListVisible() | async" (click)="changeLayerListVisible()">
+  <mat-icon>layers</mat-icon>
+</button>
+<button mat-stroked-button class="button" (click)="clearSelection()">
+  <mat-icon>layers_clear</mat-icon>
+</button>

@@ -10,6 +10,10 @@ import { MapComponent } from './components/map/map.component';
 import { AttributeTableComponent } from './components/attribute-table/attribute-table.component';
 import {MatIconModule} from "@angular/material/icon";
 import { MapToolbarComponent } from './components/map-toolbar/map-toolbar.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatButtonModule} from "@angular/material/button";
+import { FeatureNotImplementedComponent } from './components/feature-not-implemented/feature-not-implemented.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -17,7 +21,8 @@ import { MapToolbarComponent } from './components/map-toolbar/map-toolbar.compon
     LayerListComponent,
     MapComponent,
     AttributeTableComponent,
-    MapToolbarComponent
+    MapToolbarComponent,
+    FeatureNotImplementedComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +30,9 @@ import { MapToolbarComponent } from './components/map-toolbar/map-toolbar.compon
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

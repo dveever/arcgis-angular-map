@@ -7,5 +7,5 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'ArcGIS angular map';
+  title = 'Angular ArcGIS  map';
 }

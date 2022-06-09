@@ -1,0 +1,19 @@
+:host {
+  background-color: #FFFFFF;
+  box-shadow: 2px 2px 4px #999999, -2px -2px 4px #aaaaaa;
+  max-height: 320px;
+  overflow: hidden;
+}
+header {
+  display: flex;
+  align-items: center;
+  background-color: #f3f3f3;
+}
+section {
+  height: 100%;
+  width: 100%;
+}
+table {
+  width: 100%;
+  height: 100%;
+}

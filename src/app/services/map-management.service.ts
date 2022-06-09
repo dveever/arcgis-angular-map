@@ -12,6 +12,9 @@ import Graphic from "@arcgis/core/Graphic";
 import {IdentifyExecuteResult} from "../interfaces/identify-execute-result";
 import {MatDialog} from "@angular/material/dialog";
 import {FeatureNotImplementedComponent} from "../components/feature-not-implemented/feature-not-implemented.component";
+import QueryTask from "@arcgis/core/tasks/QueryTask";
+import Query from "@arcgis/core/rest/support/Query";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +24,14 @@ export class MapManagementService {
   mapChange = new Subject<ArcGISMap>();
   mapView!: MapView;
   layerListVisible = new BehaviorSubject<boolean>(true);
+  attributesVisible = new BehaviorSubject<number>(-1);
   private usaLayer!: MapImageLayer;
   private identify: IdentifyTask;
+  private queryTask: QueryTask;
 
   constructor(public dialog: MatDialog) {
     this.identify = new IdentifyTask();
+    this.queryTask = new QueryTask();
   }
 
   loadMap(container: HTMLDivElement) {
@@ -76,6 +82,15 @@ export class MapManagementService {
       .pipe(
         switchMap((identifyExecuteResult: IdentifyExecuteResult) => this.getTemplates(identifyExecuteResult))
       );
+  }
+
+  getAttributes = (id: number): Observable<FeatureSet> => {
+    const query: Query = new Query();
+    query.returnGeometry = false;
+    query.outFields = ["*"];
+    query.where = "1=1";
+    this.queryTask.url = environment.arcgisServiceUrl + `/${id}`;
+    return from(this.queryTask.execute(query));
   }
 
   notImplementedClick(): void {

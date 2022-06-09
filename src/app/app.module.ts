@@ -14,6 +14,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import { FeatureNotImplementedComponent } from './components/feature-not-implemented/feature-not-implemented.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -24,16 +25,17 @@ import {MatDialogModule} from "@angular/material/dialog";
     MapToolbarComponent,
     FeatureNotImplementedComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatDialogModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatTableModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

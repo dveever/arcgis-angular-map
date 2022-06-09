@@ -1,2 +1,3 @@
 <div #mapView></div>
 <app-layer-list *ngIf="layerListVisible() | async"></app-layer-list>
+<app-attribute-table *ngIf="(attributesVisible() | async) !== -1" class="attr-table"></app-attribute-table>

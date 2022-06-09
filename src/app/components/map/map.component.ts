@@ -40,6 +40,10 @@ export class MapComponent implements OnInit, OnDestroy {
     return this.mapManagementService.layerListVisible;
   }
 
+  attributesVisible(): Observable<number> {
+    return this.mapManagementService.attributesVisible;
+  }
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.complete();

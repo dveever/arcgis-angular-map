@@ -8,3 +8,13 @@
   width: 100%;
   outline: none;
 }
+
+.attr-table {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 20px;
+  bottom: 60px;
+  width: 640px;
+  height: 320px;
+}

@@ -25,10 +25,9 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
   border-bottom: solid lightgray 1px;
-  height: 68px;
-  padding: 4px 0;
+  height: 42px;
+  padding: 4px 4px;
 
   & img {
     margin: 0 16px;
@@ -36,6 +35,12 @@ footer {
 
   &-buttons {
     color: #2b2b2b;
+  }
+
+  .header-title {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 100;
   }
 }
 
@@ -64,3 +69,8 @@ footer {
   }
 }
 
+.mat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+}

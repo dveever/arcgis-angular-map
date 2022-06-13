@@ -1,6 +1,8 @@
-<button mat-stroked-button class="button" [class.button-active]="layerListVisible() | async" (click)="changeLayerListVisible()">
+<button mat-stroked-button
+        class="button"
+        [class.button-active]="layerListVisible() | async"
+        [matTooltip]="(layerListVisible() | async) ? 'Hide layer list' : 'Show layer list'"
+        matTooltipPosition="below"
+        (click)="changeLayerListVisible()">
   <mat-icon>layers</mat-icon>
-</button>
-<button mat-stroked-button class="button" (click)="clearSelection()">
-  <mat-icon>layers_clear</mat-icon>
 </button>

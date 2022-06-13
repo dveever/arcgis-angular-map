@@ -15,6 +15,10 @@ import {FeatureNotImplementedComponent} from "../components/feature-not-implemen
 import QueryTask from "@arcgis/core/tasks/QueryTask";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import {AttributeShowEvent} from "../interfaces/attribute-show-event";
+import MapImageLayerProperties = __esri.MapImageLayerProperties;
+import MapViewProperties = __esri.MapViewProperties;
+import MapProperties = __esri.MapProperties;
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +28,7 @@ export class MapManagementService {
   mapChange = new Subject<ArcGISMap>();
   mapView!: MapView;
   layerListVisible = new BehaviorSubject<boolean>(true);
-  attributesVisible = new BehaviorSubject<number>(-1);
+  attributesVisible = new BehaviorSubject<AttributeShowEvent>({layerId: -1});
   private usaLayer!: MapImageLayer;
   private identify: IdentifyTask;
   private queryTask: QueryTask;
@@ -36,7 +40,7 @@ export class MapManagementService {
 
   loadMap(container: HTMLDivElement) {
     // Load esri modules
-    const mapProperties = {
+    const mapProperties: MapProperties = {
       basemap: 'gray-vector'
     };
     // create map by default properties
@@ -44,10 +48,11 @@ export class MapManagementService {
     // set default map view properties
     // container - element in html-template for locate map
     // zoom - default zoom parameter, value from 1 to 18
-    const mapViewProperties = {
+    const mapViewProperties: MapViewProperties = {
       map: this.map,
       container: container,
       center: [-100.244, 42.052],
+      popup: { collapseEnabled: false },
       zoom: 3
     };
     // create map view by default properties
@@ -55,7 +60,7 @@ export class MapManagementService {
 
     // Set service properties
     // url - this address to MapServer from ArcGIS Enterprise
-    const usaProperties = {
+    const usaProperties: MapImageLayerProperties = {
       url: environment.arcgisServiceUrl
     };
     // Create map image layer by properties

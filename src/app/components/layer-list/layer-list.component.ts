@@ -41,9 +41,8 @@ export class LayerListComponent implements OnInit, OnDestroy {
     layer.visible = event.checked;
   }
 
-  showAttributes(layerId: number): void {
-    this.mapManagementService.attributesVisible.next(layerId);
-    this.mapManagementService.getAttributes(layerId);
+  showAttributes(layerId: number, layerTitle: string): void {
+    this.mapManagementService.attributesVisible.next({layerId, layerTitle});
   }
 
   featureNotImplemented(): void {

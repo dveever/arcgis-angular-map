@@ -1,0 +1,13 @@
+<header>
+  <button mat-icon-button color="warn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <span>{{ title || ''}}</span>
+</header>
+<section>
+  <app-attributes-mobile *ngIf="isSmallView | async" [data]="attributes | async"></app-attributes-mobile>
+  <app-attributes-web *ngIf="(isSmallView | async) === false"
+                      [columns]="columns | async"
+                      [data]="attributes | async">
+  </app-attributes-web>
+</section>

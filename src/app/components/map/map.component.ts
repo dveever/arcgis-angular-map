@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Observable, Subject, takeUntil} from "rxjs";
+import {filter, map, Observable, Subject, takeUntil} from "rxjs";
 import {MapManagementService} from "../../services/map-management.service";
 import ViewClickEvent = __esri.ViewClickEvent;
 
@@ -27,7 +27,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
   identifyByClick = (event: ViewClickEvent): void => {
     this.mapManagementService.identifyByPoint(event.mapPoint)
-      .pipe(takeUntil(this.onDestroy))
+      .pipe(
+        filter(results => results?.length > 0),
+        takeUntil(this.onDestroy)
+      )
       .subscribe(results => {
         this.mapManagementService.mapView.popup.open({
           features: results,
@@ -40,8 +43,8 @@ export class MapComponent implements OnInit, OnDestroy {
     return this.mapManagementService.layerListVisible;
   }
 
-  attributesVisible(): Observable<number> {
-    return this.mapManagementService.attributesVisible;
+  attributesVisible(): Observable<boolean> {
+    return this.mapManagementService.attributesVisible.pipe(map(event => event.layerId !== -1));
   }
 
   ngOnDestroy(): void {

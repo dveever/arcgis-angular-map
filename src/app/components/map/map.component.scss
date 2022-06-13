@@ -1,3 +1,5 @@
+@import "src/assets/variables";
+
 :host {
   width: 100%;
   height: 100%;
@@ -15,6 +17,19 @@
   position: fixed;
   left: 20px;
   bottom: 60px;
-  width: 640px;
-  height: 320px;
+
+  @media (max-width: $md) and (orientation: portrait) {
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    height: 50%;
+    width: unset;
+  }
+
+  @media (max-width: $md) and (orientation: landscape) {
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+    width: 50%;
+  }
 }

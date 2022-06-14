@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "angular-arcgis-map"
+  },
+  "targets": {
+    "angular-arcgis-map": {
+      "hosting": {
+        "arcgis-angular-map": [
+          "angular-arcgis-map"
+        ]
+      }
+    }
+  }
+}

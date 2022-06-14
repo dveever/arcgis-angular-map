@@ -20,6 +20,9 @@ import { AttributesWebComponent } from './components/attributes-web/attributes-w
 import { AttributesMobileComponent } from './components/attributes-mobile/attributes-mobile.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 
 @NgModule({
   declarations: [
@@ -45,6 +48,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatPaginatorModule,
     ScrollingModule,
     MatTooltipModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

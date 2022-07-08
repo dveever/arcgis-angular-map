@@ -14,16 +14,17 @@
     flex-direction: column;
     padding: 8px;
     border-bottom: 1px solid #999999;
-    font-size: 16px;
+    font-size: 12px;
 
     &-property {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 4px 0;
+      border-bottom: 1px solid lightgray;
 
       &__name {
-        font-weight: 500;
+        text-transform: uppercase;
       }
 
       &__value {
@@ -31,11 +32,12 @@
       }
 
       &__spacer {
-        border-bottom: 1px dotted #999999;
-        padding-bottom: 4px;
         width: 100%;
         flex-grow: 1;
-        margin: 0 8px;
+      }
+
+      &:last-child {
+        border-bottom: unset;
       }
     }
   }

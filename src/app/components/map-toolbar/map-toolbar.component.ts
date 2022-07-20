@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MapManagementService} from "../../services/map-management.service";
 import {Observable} from "rxjs";
+import {MapModeEnum} from "../../enums/map-mode.enum";
 
 @Component({
   selector: 'app-map-toolbar',
@@ -20,11 +21,31 @@ export class MapToolbarComponent implements OnInit {
     return this.mapManagementService.layerListVisible;
   }
 
+  isSelectionMode(): boolean {
+    return this.mapManagementService.mapMode.value.type === MapModeEnum.SELECTION;
+  }
+
+  isDefaultMode(): boolean {
+    return this.mapManagementService.mapMode.value.type === MapModeEnum.DEFAULT;
+  }
+
+  isIdentifyByClickMode(): boolean {
+    return this.mapManagementService.mapMode.value.type === MapModeEnum.IDENTIFY_BY_CLICK;
+  }
+
   changeLayerListVisible(): void {
     this.mapManagementService.layerListVisible.next(!this.mapManagementService.layerListVisible.value);
   }
 
+  selectPanTool(): void {
+    this.mapManagementService.mapMode.next({type: MapModeEnum.DEFAULT});
+  }
+
+  selectIdentifyByClickTool(): void {
+    this.mapManagementService.mapMode.next({type: MapModeEnum.IDENTIFY_BY_CLICK});
+  }
+
   clearSelection(): void {
-    this.mapManagementService.notImplementedClick();
+    this.mapManagementService.clearSelection();
   }
 }

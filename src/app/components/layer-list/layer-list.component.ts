@@ -4,6 +4,7 @@ import {BehaviorSubject, filter, Subject, takeUntil} from "rxjs";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import Sublayer from "@arcgis/core/layers/support/Sublayer";
+import {MapModeEnum} from "../../enums/map-mode.enum";
 
 @Component({
   selector: 'app-layer-list',
@@ -43,6 +44,10 @@ export class LayerListComponent implements OnInit, OnDestroy {
 
   showAttributes(layerId: number, layerTitle: string): void {
     this.mapManagementService.attributesVisible.next({layerId, layerTitle});
+  }
+
+  selectFeature(layerId: number): void {
+    this.mapManagementService.mapMode.next({type: MapModeEnum.SELECTION, layerId: layerId});
   }
 
   featureNotImplemented(): void {

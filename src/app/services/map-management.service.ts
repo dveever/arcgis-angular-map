@@ -16,6 +16,13 @@ import QueryTask from "@arcgis/core/tasks/QueryTask";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import {AttributeShowEvent} from "../interfaces/attribute-show-event";
+import {MapModeEnum} from "../enums/map-mode.enum";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
+import {MapModeEvent} from "../interfaces/map-mode-event";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import MapImageLayerProperties = __esri.MapImageLayerProperties;
 import MapViewProperties = __esri.MapViewProperties;
 import MapProperties = __esri.MapProperties;
@@ -24,11 +31,35 @@ import MapProperties = __esri.MapProperties;
   providedIn: 'root'
 })
 export class MapManagementService {
+  simpleLineSymbol: SimpleLineSymbol = new SimpleLineSymbol({
+    color: [0, 252, 252, 1],
+    width: 3,
+    style: "solid"
+  });
+  simpleFillSymbol: SimpleFillSymbol = new SimpleFillSymbol({
+    color: [0, 252, 252, 1],
+    outline: {
+      color: [0, 252, 252],
+      width: 3
+    }
+  });
+  simpleMarkerSymbol: SimpleMarkerSymbol = new SimpleMarkerSymbol({
+    style: "circle",
+    color: [0, 252, 252, 1],
+    size: 4,
+    outline: {
+      color: [0, 0, 0],
+      width: 1
+    }
+  });
   map!: ArcGISMap;
   mapChange = new Subject<ArcGISMap>();
   mapView!: MapView;
+  sketchViewModel!: SketchViewModel;
   layerListVisible = new BehaviorSubject<boolean>(true);
+  mapMode = new BehaviorSubject<MapModeEvent>({type: MapModeEnum.DEFAULT});
   attributesVisible = new BehaviorSubject<AttributeShowEvent>({layerId: -1});
+  drawGraphicsLayer!: GraphicsLayer;
   private usaLayer!: MapImageLayer;
   private identify: IdentifyTask;
   private queryTask: QueryTask;
@@ -70,7 +101,14 @@ export class MapManagementService {
     this.map.add(this.usaLayer);
     // Waiting for the layer to be loaded and send map to map management service
     this.usaLayer.when(() => this.mapChange.next(this.map));
-    // Handle map click and invoke identify method
+    // add layer for draw graphics
+    this.drawGraphicsLayer = new GraphicsLayer();
+    this.map.add(this.drawGraphicsLayer);
+    // create a new sketch view model set its layer
+    this.sketchViewModel = new SketchViewModel({
+      view: this.mapView,
+      layer: this.drawGraphicsLayer
+    });
   }
 
   identifyByPoint = (mapPoint: Point): Observable<Graphic[]> => {
@@ -90,12 +128,26 @@ export class MapManagementService {
   }
 
   getAttributes = (id: number): Observable<FeatureSet> => {
-    const query: Query = new Query();
+    const query = new Query();
     query.returnGeometry = false;
     query.outFields = ["*"];
     query.where = "1=1";
     this.queryTask.url = environment.arcgisServiceUrl + `/${id}`;
     return from(this.queryTask.execute(query));
+  }
+
+  selectByRectangle = (graphic: Graphic): Observable<FeatureSet> => {
+    const query = new Query();
+    query.geometry = graphic.geometry;
+    query.outFields = ["*"];
+    query.returnGeometry = true;
+    this.queryTask.url = environment.arcgisServiceUrl + `/${this.mapMode.value.layerId}`;
+    return from(this.queryTask.execute(query));
+  }
+
+  clearSelection(): void {
+    this.mapView.graphics.removeAll();
+    this.drawGraphicsLayer.removeAll();
   }
 
   notImplementedClick(): void {

@@ -23,6 +23,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -35,22 +36,23 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
     AttributesWebComponent,
     AttributesMobileComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    ScrollingModule,
-    MatTooltipModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule,
+        ScrollingModule,
+        MatTooltipModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        MatDividerModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
